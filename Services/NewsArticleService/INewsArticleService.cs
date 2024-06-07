@@ -10,9 +10,9 @@ namespace Services.NewsArticleService
     public interface INewsArticleService
     {
         List<NewsArticle> GetNewsArticle();
-        void AddNewsArticle(NewsArticle newsArticle);
+        Task AddNewsArticle(NewsArticle newsArticle);
         void UpdateNewsArticle(NewsArticle newsArticle);
-        void DeleteNewsArticle(NewsArticle newsArticle);
+        Task DeleteNewsArticle(NewsArticle newsArticle);
         Task<NewsArticle> GetNewsArticleById(string id);
         List<NewsArticle> GetNewsArticlesByCreatedId(short Id);
     }

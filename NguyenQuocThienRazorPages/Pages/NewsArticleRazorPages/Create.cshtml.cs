@@ -7,27 +7,43 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
 using DataAcessLayer;
+using Services.NewsArticleService;
+using Services.CategoryService;
+using Services.SystemAccountService;
 
 namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
 {
     public class CreateModel : PageModel
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly INewsArticleService _newsArticleService;
+        private readonly ICategoryService _categoryService;
+        private readonly ISystemAccountService _systemAccountService;
+        private List<Category> _listCategory = new List<Category>();
+        private List<SystemAccount> _listSystemAccount = new List<SystemAccount>();
 
-        public CreateModel(DataAcessLayer.FunewsManagementDbContext context)
+        public CreateModel()
         {
-            _context = context;
+            _newsArticleService = new NewsArticleService();
+            _categoryService = new CategoryService();
+            _systemAccountService = new SystemAccountService();
         }
-
-        public IActionResult OnGet()
-        {
-        ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryDesciption");
-        ViewData["CreatedById"] = new SelectList(_context.SystemAccounts, "AccountId", "AccountId");
-            return Page();
-        }
-
         [BindProperty]
         public NewsArticle NewsArticle { get; set; } = default!;
+        public SelectList Categories { get; set; }
+        public SelectList Users { get; set; }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            NewsArticle = new NewsArticle(); 
+
+            _listCategory = _categoryService.GetCategories();
+            _listSystemAccount = _systemAccountService.GetSystemAccount();
+
+            Categories = new SelectList(_listCategory, "CategoryId", "CategoryName", NewsArticle.CategoryId);
+            Users = new SelectList(_listSystemAccount, "AccountId", "AccountName", NewsArticle.CreatedById);
+
+            return Page();
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -37,8 +53,7 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
                 return Page();
             }
 
-            _context.NewsArticles.Add(NewsArticle);
-            await _context.SaveChangesAsync();
+            await _newsArticleService.AddNewsArticle(NewsArticle);      
 
             return RedirectToPage("./Index");
         }

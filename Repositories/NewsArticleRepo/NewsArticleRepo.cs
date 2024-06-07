@@ -10,8 +10,8 @@ namespace Repositories.NewsArticleRepo
 {
     public class NewsArticleRepo : INewsArticleRepo
     {
-        public void AddNewsArticle(NewsArticle newsArticle) => NewsArticleDAO.AddNewsArticle(newsArticle);
-        public void DeleteNewsArticle(NewsArticle newsArticle) => NewsArticleDAO.DeleteNewsArticle(newsArticle);
+        public async Task AddNewsArticle(NewsArticle newsArticle) => NewsArticleDAO.AddNewsArticle(newsArticle);
+        public async Task DeleteNewsArticle(NewsArticle newsArticle) => await NewsArticleDAO.DeleteNewsArticle(newsArticle);
         public void UpdateNewsArticle(NewsArticle newsArticle) => NewsArticleDAO.UpdateNewsArticle(newsArticle);
         public List<NewsArticle> GetNewsArticle() => NewsArticleDAO.GetNewsArticles();
         public Task<NewsArticle> GetNewsArticleById(string id) => NewsArticleDAO.GetNewsArticleById(id);

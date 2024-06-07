@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using DataAcessLayer;
+using Services.NewsArticleService;
 
 namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
 {
     public class DeleteModel : PageModel
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly INewsArticleService _newsArticleService;
 
-        public DeleteModel(DataAcessLayer.FunewsManagementDbContext context)
+        public DeleteModel()
         {
-            _context = context;
+            _newsArticleService = new NewsArticleService();
         }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
                 return NotFound();
             }
 
-            var newsarticle = await _context.NewsArticles.FirstOrDefaultAsync(m => m.NewsArticleId == id);
+            var newsarticle = await _newsArticleService.GetNewsArticleById(id);
 
             if (newsarticle == null)
             {
@@ -48,15 +49,22 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
             {
                 return NotFound();
             }
+            var newsarticle = await _newsArticleService.GetNewsArticleById(id);
 
-            var newsarticle = await _context.NewsArticles.FindAsync(id);
-            if (newsarticle != null)
+            if (newsarticle == null)
+            {
+                return NotFound();
+            }
+            else
             {
                 NewsArticle = newsarticle;
-                _context.NewsArticles.Remove(NewsArticle);
-                await _context.SaveChangesAsync();
             }
 
+            if (newsarticle != null)
+            {
+                await _newsArticleService.DeleteNewsArticle(newsarticle);
+                
+            }
             return RedirectToPage("./Index");
         }
     }

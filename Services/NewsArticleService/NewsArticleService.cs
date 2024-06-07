@@ -18,14 +18,14 @@ namespace Services.NewsArticleService
 
         }
 
-        public void AddNewsArticle(NewsArticle newsArticle)
+        public async Task AddNewsArticle(NewsArticle newsArticle)
         {
-            _newsArticleRepo.AddNewsArticle(newsArticle);
+           await _newsArticleRepo.AddNewsArticle(newsArticle);
         }
 
-        public void DeleteNewsArticle(NewsArticle newsArticle)
+        public async Task DeleteNewsArticle(NewsArticle newsArticle)
         {
-            _newsArticleRepo.DeleteNewsArticle(newsArticle);
+            await _newsArticleRepo.DeleteNewsArticle(newsArticle);
         }
 
         public List<NewsArticle> GetNewsArticle()

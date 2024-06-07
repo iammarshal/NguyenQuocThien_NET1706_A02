@@ -28,14 +28,14 @@ namespace DataAcessLayer
             }
             return listNewsArticles;
         }
-        public static void AddNewsArticle(NewsArticle newsArticle)
+        public static async Task AddNewsArticle(NewsArticle newsArticle)
         {
             try
             {
                 using (var _context = new FunewsManagementDbContext())
                 {
                     _context.NewsArticles.Add(newsArticle);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -59,14 +59,22 @@ namespace DataAcessLayer
                 throw new Exception(e.Message);
             }
         }
-        public static void DeleteNewsArticle(NewsArticle newsArticle)
+        public static async Task DeleteNewsArticle(NewsArticle newsArticle)
         {
             try
             {
                 using (var _context = new FunewsManagementDbContext())
                 {
-                    _context.NewsArticles.Remove(newsArticle);
-                    _context.SaveChanges();
+                    var newsArticleInDb = await _context.NewsArticles
+                        .Include(na => na.Tags)
+                        .SingleOrDefaultAsync(na => na.NewsArticleId == newsArticle.NewsArticleId);
+
+                    if (newsArticleInDb != null)
+                    {
+                        newsArticleInDb.Tags.Clear();
+                        _context.NewsArticles.Remove(newsArticleInDb);
+                        await _context.SaveChangesAsync();
+                    }
                 }
             }
             catch (Exception e)
@@ -74,6 +82,7 @@ namespace DataAcessLayer
                 throw new Exception(e.Message);
             }
         }
+
         public static async Task<NewsArticle> GetNewsArticleById(string id)
         {
             using (var _context = new FunewsManagementDbContext())

@@ -13,7 +13,7 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
 {
     public class DetailsModel : PageModel
     {
-        private readonly NewsArticleService _newsArticleService;
+        private readonly INewsArticleService _newsArticleService;
 
         public DetailsModel()
         {
