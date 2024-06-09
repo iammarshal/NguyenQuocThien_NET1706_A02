@@ -28,14 +28,14 @@ namespace DataAcessLayer
             }
             return listCategories;
         }
-        public static void AddCategory(Category category)
+        public static async Task AddCategory(Category category)
         {
             try
             {
                 using (var _context = new FunewsManagementDbContext())
                 {
                     _context.Categories.Add(category);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -58,15 +58,15 @@ namespace DataAcessLayer
                 throw new Exception(e.Message);
             }
         }
-        public static void DeleteCategory(Category category)
+        public static async Task DeleteCategory(Category category)
         {
             try
             {
                 using (var _context = new FunewsManagementDbContext())
                 {
-                    var categoryInDb = _context.Categories
+                    var categoryInDb = await _context.Categories
                         .Include(c => c.NewsArticles)
-                        .SingleOrDefault(c => c.CategoryId == category.CategoryId);
+                        .SingleOrDefaultAsync(c => c.CategoryId == category.CategoryId);
 
                     if (categoryInDb == null)
                     {
@@ -87,12 +87,12 @@ namespace DataAcessLayer
                 throw new Exception(e.Message);
             }
         }
-        public static Category GetCategoryById(int categoryId)
+        public static async Task<Category> GetCategoryById(int categoryId)
         {
             using (var _context = new FunewsManagementDbContext())
             {
-                return _context.Categories
-                    .SingleOrDefault(c => c.CategoryId == categoryId);
+                return await _context.Categories
+                    .SingleOrDefaultAsync(c => c.CategoryId == categoryId);
             }
         }
     }

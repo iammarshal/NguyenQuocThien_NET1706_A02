@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using BusinessObject;
-using DataAcessLayer;
+using Services.CategoryService;
 
 namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : SessionProgress
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public IndexModel(DataAcessLayer.FunewsManagementDbContext context)
+        public IndexModel()
         {
-            _context = context;
+            _categoryService = new CategoryService();
+            RoleDiv = 1;
         }
 
         public IList<Category> Category { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Category = await _context.Categories.ToListAsync();
+            if(GrantPer)
+            {
+                Category = _categoryService.GetCategories();
+            }          
         }
     }
 }

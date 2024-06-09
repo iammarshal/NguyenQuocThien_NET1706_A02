@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using BusinessObject;
-using DataAcessLayer;
+using Services.CategoryService;
 
 namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 {
     public class DetailsModel : PageModel
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public DetailsModel(DataAcessLayer.FunewsManagementDbContext context)
+        public DetailsModel()
         {
-            _context = context;
+            _categoryService = new CategoryService();
         }
 
         public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(short? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = await _categoryService.GetCategoryById(id);
             if (category == null)
             {
                 return NotFound();

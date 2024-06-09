@@ -1,0 +1,22 @@
+﻿@page
+@model NguyenQuocThienRazorPages.Pages.StaffPageIndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<h1>Staff Management Page</h1>
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/CategoryRazorPages/Index">Manage category</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/NewsArticleRazorPages/Index">Manage news article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/StaffManageProfile/ManageProfile">Manage profile.</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/NewsArticleRazorPages/Report">View news history</a>
+    </li>
+</ul>

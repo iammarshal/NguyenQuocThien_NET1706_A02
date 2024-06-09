@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
-using DataAcessLayer;
 using Services.NewsArticleService;
 using Services.CategoryService;
 using Services.SystemAccountService;
 
 namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
 {
-    public class CreateModel : PageModel
+    public class CreateModel : SessionProgress
     {
         private readonly INewsArticleService _newsArticleService;
         private readonly ICategoryService _categoryService;
@@ -26,6 +21,7 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
             _newsArticleService = new NewsArticleService();
             _categoryService = new CategoryService();
             _systemAccountService = new SystemAccountService();
+            RoleDiv = 1;
         }
         [BindProperty]
         public NewsArticle NewsArticle { get; set; } = default!;
@@ -34,27 +30,31 @@ namespace NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            NewsArticle = new NewsArticle(); 
+            if (GrantPer)
+            {
+                NewsArticle = new NewsArticle();
 
-            _listCategory = _categoryService.GetCategories();
-            _listSystemAccount = _systemAccountService.GetSystemAccount();
+                _listCategory = _categoryService.GetCategories();
+                _listSystemAccount = _systemAccountService.GetSystemAccount();
 
-            Categories = new SelectList(_listCategory, "CategoryId", "CategoryName", NewsArticle.CategoryId);
-            Users = new SelectList(_listSystemAccount, "AccountId", "AccountName", NewsArticle.CreatedById);
-
+                Categories = new SelectList(_listCategory, "CategoryId", "CategoryName", NewsArticle.CategoryId);
+                Users = new SelectList(_listSystemAccount, "AccountId", "AccountName", NewsArticle.CreatedById);
+            }
             return Page();
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if(GrantPer)
             {
-                return Page();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                await _newsArticleService.AddNewsArticle(NewsArticle);
             }
-
-            await _newsArticleService.AddNewsArticle(NewsArticle);      
-
             return RedirectToPage("./Index");
         }
     }

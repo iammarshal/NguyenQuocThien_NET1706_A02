@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
-using DataAcessLayer;
 
 namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 {
-    public class EditModel : PageModel
+    public class EditModel : SessionProgress
     {
         private readonly DataAcessLayer.FunewsManagementDbContext _context;
 
         public EditModel(DataAcessLayer.FunewsManagementDbContext context)
         {
             _context = context;
+            RoleDiv = 1;
         }
 
         [BindProperty]
@@ -25,17 +20,20 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 
         public async Task<IActionResult> OnGetAsync(short? id)
         {
-            if (id == null)
+            if(GrantPer)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var category =  await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            Category = category;
+                var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+                Category = category;
+            }  
             return Page();
         }
 
@@ -43,29 +41,31 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (GrantPer)
             {
-                return Page();
-            }
-
-            _context.Attach(Category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(Category.CategoryId))
+                if (!ModelState.IsValid)
                 {
-                    return NotFound();
+                    return Page();
                 }
-                else
+
+                _context.Attach(Category).State = EntityState.Modified;
+
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CategoryExists(Category.CategoryId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
-
             return RedirectToPage("./Index");
         }
 

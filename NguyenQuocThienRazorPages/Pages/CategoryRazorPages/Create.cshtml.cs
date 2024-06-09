@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObject;
-using DataAcessLayer;
+using Services.CategoryService;
 
 namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 {
-    public class CreateModel : PageModel
+    public class CreateModel : SessionProgress
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public CreateModel(DataAcessLayer.FunewsManagementDbContext context)
+        public CreateModel()
         {
-            _context = context;
+            _categoryService = new CategoryService();
+            RoleDiv = 1;
         }
 
         public IActionResult OnGet()
@@ -30,14 +26,14 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if(GrantPer)
             {
-                return Page();
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+                await _categoryService.AddCategory(Category);
             }
-
-            _context.Categories.Add(Category);
-            await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
         }
     }

@@ -5,32 +5,36 @@ using Services.SystemAccountService;
 
 namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : SessionProgress
     {
         private readonly SystemAccountService _systemAccountService;
 
         public DetailsModel()
         {
             _systemAccountService = new SystemAccountService();
+            RoleDiv = 0;
         }
 
         public SystemAccount SystemAccount { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(short id)
         {
-            if (id == null)
+            if (GrantPer)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var systemaccount = _systemAccountService.GetSystemAccountById(id);
-            if (systemaccount == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                SystemAccount = systemaccount;
+                var systemaccount = _systemAccountService.GetSystemAccountById(id);
+                if (systemaccount == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    SystemAccount = systemaccount;
+                }
             }
             return Page();
         }

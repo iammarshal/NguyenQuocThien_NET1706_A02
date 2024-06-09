@@ -1,0 +1,15 @@
+﻿@page
+@model NguyenQuocThienRazorPages.Pages.AdminPageIndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<h1>Admin Management Page</h1>
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/SystemAccountRazorPages/SystemAccountIndex">Manage account information</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-page="/NewsArticleRazorPages/Report">Report statistic</a>
+    </li>
+</ul>

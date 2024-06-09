@@ -10,9 +10,9 @@ namespace Services.CategoryService
     public interface ICategoryService
     {
         List<Category> GetCategories();
-        void AddCategory(Category category);
+        Task AddCategory(Category category);
         void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
-        Category GetCategoryById(int id);
+        Task DeleteCategory(Category category);
+        Task <Category> GetCategoryById(int id);
     }
 }

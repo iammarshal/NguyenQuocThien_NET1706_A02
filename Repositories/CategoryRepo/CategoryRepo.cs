@@ -10,10 +10,10 @@ namespace Repositories.CategoryRepo
 {
     public class CategoryRepo : ICategoryRepo
     {
-        public void AddCategory(Category category) => CategoryDAO.AddCategory(category);
-        public void DeleteCategory(Category category) => CategoryDAO.DeleteCategory(category);
+        public async Task AddCategory(Category category) => await CategoryDAO.AddCategory(category);
+        public async Task DeleteCategory(Category category) => await CategoryDAO.DeleteCategory(category);
         public void UpdateCategory(Category category) => CategoryDAO.UpdateCategory(category);
         public List<Category> GetCategories() => CategoryDAO.GetCategories();
-        public Category GetCategoryById(int id) => CategoryDAO.GetCategoryById(id);
+        public async Task<Category> GetCategoryById(int id) => await CategoryDAO.GetCategoryById(id);
     }
 }

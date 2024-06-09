@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Services.SystemAccountService;
+using System.Text.Json;
 
-namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
+namespace NguyenQuocThienRazorPages.Pages.StaffManageProfile
 {
-    public class EditModel : SessionProgress
+    public class ManageProfileModel : SessionProgress
     {
         private readonly SystemAccountService _systemAccountService;
 
-        public EditModel()
+
+        public ManageProfileModel()
         {
             _systemAccountService = new SystemAccountService();
-            RoleDiv = 0;
+            RoleDiv = 1;
         }
 
         [BindProperty]
@@ -27,14 +28,14 @@ namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
             }
             if (GrantPer)
             {
-                var systemaccount = _systemAccountService.GetSystemAccountById(id);
-                if (systemaccount == null)
+                var loggedInUserEmail = HttpContext.Session.GetString("UserSession");
+                SystemAccount = JsonSerializer.Deserialize<SystemAccount>(loggedInUserEmail);
+                if (SystemAccount == null)
                 {
                     return NotFound();
                 }
-                SystemAccount = systemaccount;
             }
-            
+
             return Page();
         }
 
@@ -46,15 +47,25 @@ namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
             {
                 return Page();
             }
-            if(GrantPer)
+            if (GrantPer)
             {
+                var loggedInUserEmail = HttpContext.Session.GetString("UserSession");
+                var logginUser = JsonSerializer.Deserialize<SystemAccount>(loggedInUserEmail);
                 try
                 {
-                    _systemAccountService.UpdateSystemAccount(SystemAccount);
+                    var Ouser = _systemAccountService.GetSystemAccountById(logginUser.AccountId);
+                    if (Ouser == null)
+                    {
+                        return NotFound();
+                    }
+                    Ouser.AccountEmail = SystemAccount.AccountEmail;
+                    Ouser.AccountPassword = SystemAccount.AccountPassword;
+                    Ouser.AccountName = SystemAccount.AccountName;
+                    _systemAccountService.UpdateSystemAccount(Ouser);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_systemAccountService.GetSystemAccountById(SystemAccount.AccountId) == null)
+                    if (_systemAccountService.GetSystemAccountById(logginUser.AccountId) == null)
                     {
                         return NotFound();
                     }
@@ -64,8 +75,7 @@ namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
                     }
                 }
             }
-            return RedirectToPage("./SystemAccountIndex");
+            return RedirectToPage("/StaffPageIndex");
         }
-
     }
 }

@@ -5,13 +5,14 @@ using Services.SystemAccountService;
 
 namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : SessionProgress
     {
         private readonly SystemAccountService _systemAccountService;
 
         public DeleteModel()
         {
             _systemAccountService = new SystemAccountService();
+            RoleDiv = 0;
         }
 
         [BindProperty]
@@ -19,46 +20,52 @@ namespace NguyenQuocThienRazorPages.Pages.SystemAccountRazorPages
 
         public async Task<IActionResult> OnGetAsync(short id)
         {
-            if (id == null)
+            if(GrantPer)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var systemaccount = _systemAccountService.GetSystemAccountById(id);
+                var systemaccount = _systemAccountService.GetSystemAccountById(id);
 
-            if (systemaccount == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                SystemAccount = systemaccount;
-            }
+                if (systemaccount == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    SystemAccount = systemaccount;
+                }
+            } 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(short id)
         {
-            if (id == null)
+            if (GrantPer)
             {
-                return NotFound();
-            }
-            var systemaccount = _systemAccountService.GetSystemAccountById(id);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                var systemaccount = _systemAccountService.GetSystemAccountById(id);
 
-            if (systemaccount == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                SystemAccount = systemaccount;
-            }
+                if (systemaccount == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    SystemAccount = systemaccount;
+                }
 
-            if (SystemAccount != null)
-            {
-                await _systemAccountService.DeleteNewsArticleAndTags(SystemAccount.NewsArticles.ToList());
-                await _systemAccountService.DeleteSystemAccount(SystemAccount);
-            }
+                if (SystemAccount != null)
+                {
+                    await _systemAccountService.DeleteNewsArticleAndTags(SystemAccount.NewsArticles.ToList());
+                    await _systemAccountService.DeleteSystemAccount(SystemAccount);
+                }
+            }       
             return RedirectToPage("./SystemAccountIndex");
         }
     }

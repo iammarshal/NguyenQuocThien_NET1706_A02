@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NguyenQuocThienRazorPages", "NguyenQuocThienRazorPages\NguyenQuocThienRazorPages.csproj", "{5624524B-5957-45CD-B74B-B73E1B18345D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NguyenQuocThienRazorPages", "NguyenQuocThienRazorPages\NguyenQuocThienRazorPages.csproj", "{5624524B-5957-45CD-B74B-B73E1B18345D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{E1910D57-F152-46E8-BD07-EC1B36ABDC01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObject", "BusinessObject\BusinessObject.csproj", "{E1910D57-F152-46E8-BD07-EC1B36ABDC01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcessLayer", "DataAcessLayer\DataAcessLayer.csproj", "{783CCCF0-5C7E-4A8D-93F2-8B9204B9848C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcessLayer", "DataAcessLayer\DataAcessLayer.csproj", "{783CCCF0-5C7E-4A8D-93F2-8B9204B9848C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{2D4C21FE-3362-4B8F-8085-6C41DDC4C682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{2D4C21FE-3362-4B8F-8085-6C41DDC4C682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{180464FA-5727-416C-AAA4-DA100C83BAF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{180464FA-5727-416C-AAA4-DA100C83BAF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

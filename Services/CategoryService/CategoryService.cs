@@ -23,21 +23,21 @@ namespace Services.CategoryService
             return _categoryRepo.GetCategories();
         }
 
-        public void AddCategory(Category category)
+        public async Task AddCategory(Category category)
         {
-            _categoryRepo.AddCategory(category);
+           await _categoryRepo.AddCategory(category);
         }
-        public void DeleteCategory(Category category)
+        public async Task DeleteCategory(Category category)
         {
-            _categoryRepo.DeleteCategory(category);
+           await _categoryRepo.DeleteCategory(category);
         }
         public void UpdateCategory(Category category)
         {
             _categoryRepo.UpdateCategory(category);
         }
-        public Category GetCategoryById(int id)
+        public async Task<Category> GetCategoryById(int id)
         {
-            return _categoryRepo.GetCategoryById(id);
+            return await _categoryRepo.GetCategoryById(id);
         }
     }
 }
