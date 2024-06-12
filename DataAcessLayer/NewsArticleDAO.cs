@@ -100,10 +100,10 @@ namespace DataAcessLayer
             using (var _context = new FunewsManagementDbContext())
             {
                 return _context.NewsArticles
-                    .Include(c => c.Category)
-                    .Include(c => c.Tags)
-                    .Include(c => c.CreatedBy)
-                    .Where(c => c.NewsStatus == true && c.CreatedById == Id)
+                    .Include(n => n.Category)
+                    .Include(n => n.Tags)
+                    .Include(n => n.CreatedBy)
+                    .Where(n => n.NewsStatus == true && n.CreatedById == Id)
                     .ToList();
             }
         }

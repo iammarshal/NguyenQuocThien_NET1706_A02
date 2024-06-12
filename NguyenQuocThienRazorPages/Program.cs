@@ -9,7 +9,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRazorPages(Services =>
 {
-    Services.Conventions.AddPageRoute("/Login", "/");
+    Services.Conventions.AddPageRoute("/NewsArticleRazorPage", "/");
 });
 var app = builder.Build();
 

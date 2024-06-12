@@ -1,0 +1,29 @@
+﻿@page
+@model NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages.ViewNewsHistoryModel
+@{
+    if (@Model.NewsArticle.Count == 0)
+    {
+        <div style="display: flex; justify-content: center">
+            <h5>No news found</h5>
+        </div>
+    }
+    else
+    {
+        foreach (var news in @Model.NewsArticle)
+        {
+            string tagString = string.Join(", ", news.Tags.Select(tag => tag.TagName));
+            <div style="border: 2px solid #000000; border-radius: 5px; margin-top: 5vh; padding: 10px">
+                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; flex-wrap: wrap">
+                    <h3><strong>@news.NewsTitle</strong></h3>
+                </div>
+                <h5><b>Category</b>: @news.Category.CategoryName</h5><br>
+                <h5><b>Tag</b>: @tagString</h5><br>
+                <h5><b>Author</b>: @news.CreatedBy.AccountName</h5><br>
+                <h5><b>Created date</b>: @news.CreatedDate</h5><br>
+                <div style="align-items: start">
+                    <p style="font-size: 19.5px">@news.NewsContent</p>
+                </div>
+            </div>
+        }
+    }
+}
