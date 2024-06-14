@@ -15,5 +15,6 @@ namespace Repositories.NewsArticleRepo
         Task DeleteNewsArticle(NewsArticle newsArticle);
         Task<NewsArticle> GetNewsArticleById(string id);
         List<NewsArticle> GetNewsArticlesByCreatedId(short Id);
+        Task<List<NewsArticle>> GetNewsArticlesByDateRange(DateTime? startDate, DateTime? endDate);
     }
 }

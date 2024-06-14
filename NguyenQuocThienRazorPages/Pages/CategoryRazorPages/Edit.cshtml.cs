@@ -2,23 +2,24 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
+using Services.CategoryService;
 
 namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
 {
     public class EditModel : SessionProgress
     {
-        private readonly DataAcessLayer.FunewsManagementDbContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public EditModel(DataAcessLayer.FunewsManagementDbContext context)
+        public EditModel()
         {
-            _context = context;
+            _categoryService = new CategoryService();
             RoleDiv = 1;
         }
 
         [BindProperty]
         public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(short? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if(GrantPer)
             {
@@ -27,7 +28,7 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
                     return NotFound();
                 }
 
-                var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+                var category = await _categoryService.GetCategoryById(id);
                 if (category == null)
                 {
                     return NotFound();
@@ -48,15 +49,14 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
                     return Page();
                 }
 
-                _context.Attach(Category).State = EntityState.Modified;
 
                 try
                 {
-                    await _context.SaveChangesAsync();
+                    await _categoryService.UpdateCategory(Category);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(Category.CategoryId))
+                    if (_categoryService.GetCategoryById(Category.CategoryId) == null)
                     {
                         return NotFound();
                     }
@@ -69,9 +69,6 @@ namespace NguyenQuocThienRazorPages.Pages.CategoryRazorPages
             return RedirectToPage("./Index");
         }
 
-        private bool CategoryExists(short id)
-        {
-            return _context.Categories.Any(e => e.CategoryId == id);
-        }
+  
     }
 }

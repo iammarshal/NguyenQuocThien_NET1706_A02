@@ -107,5 +107,28 @@ namespace DataAcessLayer
                     .ToList();
             }
         }
+        public static async Task<List<NewsArticle>> GetNewsArticlesByDateRange(DateTime? startDate, DateTime? endDate)
+        {
+            using (var _context = new FunewsManagementDbContext())
+            {
+                var query = _context.NewsArticles.AsQueryable();
+
+                if (startDate.HasValue)
+                {
+                    query = query.Where(n => n.CreatedDate >= startDate || n.ModifiedDate >= startDate);
+                }
+
+                if (endDate.HasValue)
+                {
+                    query = query.Where(n => n.CreatedDate <= endDate || n.ModifiedDate <= endDate);
+                }
+
+                return await query
+                    .Include(c => c.Category)
+                    .Include(c => c.Tags)
+                    .Include(c => c.CreatedBy)
+                    .ToListAsync();
+            }
+        }
     }
 }

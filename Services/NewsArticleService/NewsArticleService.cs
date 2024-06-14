@@ -1,4 +1,5 @@
 ﻿using BusinessObject;
+using DataAcessLayer;
 using Repositories.NewsArticleRepo;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,10 @@ namespace Services.NewsArticleService
         public List<NewsArticle> GetNewsArticlesByCreatedId(short Id)
         {
             return _newsArticleRepo.GetNewsArticlesByCreatedId(Id);
+        }
+        public async Task<List<NewsArticle>> GetNewsArticlesByDateRange(DateTime? startDate, DateTime? endDate)
+        {
+            return await _newsArticleRepo.GetNewsArticlesByDateRange(startDate, endDate);
         }
     }
 }

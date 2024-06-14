@@ -20,9 +20,9 @@ namespace NguyenQuocThienRazorPages.Pages
         public int TotalPages { get; set; }
 
 
-        public async Task<IActionResult> OnGetAsync(int? page)
+        public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
-            CurrentPage = page ?? 1;
+            CurrentPage = pageIndex ?? 1;
 
             var totalArticles = _newsArticleService.GetNewsArticle().Count;
             TotalPages = (int)Math.Ceiling((double)totalArticles / PageSize);

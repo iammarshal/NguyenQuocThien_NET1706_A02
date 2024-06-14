@@ -1,5 +1,14 @@
 ﻿@page
-@model NguyenQuocThienRazorPages.Pages.NewsArticleRazorPageModel
+@model NguyenQuocThienRazorPages.Pages.NewsArticleRazorPages.AdminReportStatisticModel
+<form method="get">
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")">
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")">
+
+    <button type="submit">Filter</button>
+</form>
 @{
     if (@Model.NewsArticle.Count == 0)
     {
@@ -27,28 +36,4 @@
         }
     }
 }
-<form method="get">
 
- </form>
-<nav aria-label="News Article Pagination">
-    <ul class="pagination justify-content-center">
-        @if (Model.CurrentPage > 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-page="./NewsArticleRazorPage" asp-route-pageIndex="@(Model.CurrentPage - 1)">Previous</a>
-            </li>
-        }
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a class="page-link" asp-page="./NewsArticleRazorPage" asp-route-pageIndex="@i">@i</a>
-            </li>
-        }
-        @if (Model.CurrentPage < Model.TotalPages)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-page="./NewsArticleRazorPage" asp-route-pageIndex="@(Model.CurrentPage + 1)">Next</a>
-            </li>
-        }
-    </ul>
-</nav>

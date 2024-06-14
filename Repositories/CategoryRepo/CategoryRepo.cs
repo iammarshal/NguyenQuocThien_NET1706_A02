@@ -12,7 +12,7 @@ namespace Repositories.CategoryRepo
     {
         public async Task AddCategory(Category category) => await CategoryDAO.AddCategory(category);
         public async Task DeleteCategory(Category category) => await CategoryDAO.DeleteCategory(category);
-        public void UpdateCategory(Category category) => CategoryDAO.UpdateCategory(category);
+        public async Task UpdateCategory(Category category) => await CategoryDAO.UpdateCategory(category);
         public List<Category> GetCategories() => CategoryDAO.GetCategories();
         public async Task<Category> GetCategoryById(int id) => await CategoryDAO.GetCategoryById(id);
     }

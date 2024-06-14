@@ -31,9 +31,9 @@ namespace Services.CategoryService
         {
            await _categoryRepo.DeleteCategory(category);
         }
-        public void UpdateCategory(Category category)
+        public async Task UpdateCategory(Category category)
         {
-            _categoryRepo.UpdateCategory(category);
+           await _categoryRepo.UpdateCategory(category);
         }
         public async Task<Category> GetCategoryById(int id)
         {

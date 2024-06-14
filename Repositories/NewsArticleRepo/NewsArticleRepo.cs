@@ -16,5 +16,6 @@ namespace Repositories.NewsArticleRepo
         public List<NewsArticle> GetNewsArticle() => NewsArticleDAO.GetNewsArticles();
         public Task<NewsArticle> GetNewsArticleById(string id) => NewsArticleDAO.GetNewsArticleById(id);
         public List<NewsArticle> GetNewsArticlesByCreatedId(short Id) => NewsArticleDAO.GetNewsArticlesByCreatedId(Id);
+        public async Task<List<NewsArticle>> GetNewsArticlesByDateRange(DateTime? startDate, DateTime? endDate) => await NewsArticleDAO.GetNewsArticlesByDateRange(startDate, endDate);
     }
 }

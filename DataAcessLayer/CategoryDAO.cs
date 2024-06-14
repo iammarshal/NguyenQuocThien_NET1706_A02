@@ -43,14 +43,14 @@ namespace DataAcessLayer
                 throw new Exception(e.Message);
             }
         }
-        public static void UpdateCategory(Category category)
+        public static async Task UpdateCategory(Category category)
         {
             try
             {
                 using (var _context = new FunewsManagementDbContext())
                 {
                     _context.Categories.Update(category);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception e)

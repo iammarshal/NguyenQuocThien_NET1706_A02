@@ -11,7 +11,7 @@ namespace Services.CategoryService
     {
         List<Category> GetCategories();
         Task AddCategory(Category category);
-        void UpdateCategory(Category category);
+        Task UpdateCategory(Category category);
         Task DeleteCategory(Category category);
         Task <Category> GetCategoryById(int id);
     }
